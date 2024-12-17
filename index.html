@@ -42,11 +42,14 @@
     <script>
 
         const apiKey = "d2e2c4a9357535dabc42e6cf04a602d5";
-        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=bangalore";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=egypt";
 
         async function checkWeather() {
+            console.log(apiUrl  +`&appid=${apiKey}`)
             const response = await fetch(apiUrl  +`&appid=${apiKey}` );
             var data = await response.json;
+            console.log(data);
+
             document.querySelector('.city-name').innerHTML = data.name;
             document.querySelector('.temperature').innerHTML = data.main.temp ;
             document.querySelector('.humidity').innerHTML = data.main.humidity ;
