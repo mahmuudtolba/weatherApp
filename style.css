@@ -121,3 +121,15 @@
 .weather-info{
     display: none;
 }
+
+.error p{
+    margin: 0px;
+    text-align: left;
+    margin-left: 35px;
+    color: white;
+
+}
+
+.error{
+    display: none;
+}

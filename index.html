@@ -13,6 +13,9 @@
                 </button>
             </div>
         </div>
+        <div class="error">
+            <p>invalid city name</p>
+        </div>
 
         <div class="weather-info">
             <img src="images/clouds.png" class="weather-icon" alt="Weather Icon" />
@@ -57,39 +60,51 @@
 
 
             const response = await fetch(apiUrl + cityname +`&appid=${apiKey}` );
-            var data = await response.json();
 
-            document.querySelector('.city-name').innerHTML = data.name;
-            document.querySelector('.temperature').innerHTML = Math.floor(data.main.temp) + '°C';
-            document.querySelector('.humidity').innerHTML = data.main.humidity +'%';
-            document.querySelector('.wind').innerHTML = data.wind.speed + ' Km/h';
+            if (response.status == 404){
+                document.querySelector('.error').style.display = 'block';
+                document.querySelector('.weather-info').style.display = 'none';
 
-            console.log(data.weather[0].main)
+            } else {
+                var data = await response.json();
 
-            switch (data.weather[0].main){
-                case 'Clouds' :
-                    weatherIcon.src = 'images/clouds.png';
-                    break;
-                case 'Clear' :
-                    weatherIcon.src = 'images/clear.png';
-                    break;
-                case 'Rain' :
-                    weatherIcon.src = 'images/rain.png';
-                    break;
-                case 'Drizzle' :
-                    weatherIcon.src = 'images/drizzle.png';
-                    break;
+                    document.querySelector('.city-name').innerHTML = data.name;
+                    document.querySelector('.temperature').innerHTML = Math.floor(data.main.temp) + '°C';
+                    document.querySelector('.humidity').innerHTML = data.main.humidity +'%';
+                    document.querySelector('.wind').innerHTML = data.wind.speed + ' Km/h';
 
-                case 'Mist' :
-                    weatherIcon.src = 'images/mist.png';
-                    break;
 
-                case 'Snow' :
-                    weatherIcon.src = 'images/snow.png';
-                    break;
+                    switch (data.weather[0].main){
+                        case 'Clouds' :
+                            weatherIcon.src = 'images/clouds.png';
+                            break;
+                        case 'Clear' :
+                            weatherIcon.src = 'images/clear.png';
+                            break;
+                        case 'Rain' :
+                            weatherIcon.src = 'images/rain.png';
+                            break;
+                        case 'Drizzle' :
+                            weatherIcon.src = 'images/drizzle.png';
+                            break;
 
+                        case 'Mist' :
+                            weatherIcon.src = 'images/mist.png';
+                            break;
+
+                        case 'Snow' :
+                            weatherIcon.src = 'images/snow.png';
+                            break;
+
+                    
+                        }
+                    document.querySelector('.weather-info').style.display = 'block';
+                    document.querySelector('.error').style.display = 'none';
+
+
+            }
             
-        }
+        
     }
 
         searchbtn.addEventListener('click' , ()=> {
