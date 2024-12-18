@@ -17,12 +17,12 @@
         <div class="weather-info">
             <img src="images/clouds.png" class="weather-icon" alt="Weather Icon" />
             <h1 class="temperature">0°C</h1>
-            <h2 class="city-name">Germany</h2>
+            <h2 class="city-name"></h2>
             <div class="details">
                 <div class="col">
                     <img src="images/humidity.png"/>
                     <div>
-                        <p class="humidity">50%</p>
+                        <p class="humidity"></p>
                         <p >humidity</p>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="col">
                     <img src="images/wind.png"/>
                     <div>
-                        <p class="wind">15 Km/h</p>
+                        <p class="wind"></p>
                         <p >Wind spped</p>
                     </div>
                 </div>
@@ -42,21 +42,59 @@
     <script>
 
         const apiKey = "d2e2c4a9357535dabc42e6cf04a602d5";
-        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=egypt";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-        async function checkWeather() {
-            console.log(apiUrl  +`&appid=${apiKey}`)
-            const response = await fetch(apiUrl  +`&appid=${apiKey}` );
-            var data = await response.json;
-            console.log(data);
+
+        const searchbox = document.querySelector('.search-box input');
+        const searchbtn = document.querySelector('.search-box button');
+        const weatherIcon = document.querySelector('.weather-icon')
+        
+
+
+        <!--asynchronous API request to fetch weather data -->
+        async function checkWeather(cityname) {
+
+
+
+            const response = await fetch(apiUrl + cityname +`&appid=${apiKey}` );
+            var data = await response.json();
 
             document.querySelector('.city-name').innerHTML = data.name;
-            document.querySelector('.temperature').innerHTML = data.main.temp ;
-            document.querySelector('.humidity').innerHTML = data.main.humidity ;
-            document.querySelector('.wind').innerHTML = data.wind.speed ;
+            document.querySelector('.temperature').innerHTML = Math.floor(data.main.temp) + '°C';
+            document.querySelector('.humidity').innerHTML = data.main.humidity +'%';
+            document.querySelector('.wind').innerHTML = data.wind.speed + ' Km/h';
+
+            console.log(data.weather[0].main)
+
+            switch (data.weather[0].main){
+                case 'Clouds' :
+                    weatherIcon.src = 'images/clouds.png';
+                    break;
+                case 'Clear' :
+                    weatherIcon.src = 'images/clear.png';
+                    break;
+                case 'Rain' :
+                    weatherIcon.src = 'images/rain.png';
+                    break;
+                case 'Drizzle' :
+                    weatherIcon.src = 'images/drizzle.png';
+                    break;
+
+                case 'Mist' :
+                    weatherIcon.src = 'images/mist.png';
+                    break;
+
+                case 'Snow' :
+                    weatherIcon.src = 'images/snow.png';
+                    break;
 
             
         }
+    }
+
+        searchbtn.addEventListener('click' , ()=> {
+            checkWeather(searchbox.value);
+        })
 
     </script>
 </body>

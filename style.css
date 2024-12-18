@@ -117,3 +117,7 @@
     font-size: 24px;
     
 }
+
+.weather-info{
+    display: none;
+}
